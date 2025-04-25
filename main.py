@@ -14,4 +14,19 @@ Implement a program that :
 import tkinter
 import keyboard
 import vlc
+import time
 
+def closing_sound() :
+    sound = vlc.MediaPlayer("assets/hacker_crap.mp3")
+    sound.play()
+    time.sleep(5)
+
+def close() :
+    if keyboard.is_pressed("ctrl+n+o") :
+        closing_sound()
+        return True
+
+while True :
+    time.sleep(0.1)
+    if close() :
+        break
