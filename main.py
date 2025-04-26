@@ -24,15 +24,25 @@ def closing_sound() :
     pygame.mixer.music.play()
     time.sleep(5)
 
+
+
+def error_sound() :
+    error_channel = pygame.mixer.Channel(1)
+    error_channel.play(pygame.mixer.Sound("assets/windows_xp_error.mp3"))
+    # pygame.mixer.music.play(1)
+
+
 def looping_sound() :
     pygame.mixer.music.load("assets/magic_word.mp3")
     pygame.mixer.music.play(-1)
     
 
 
+
 def main() :
     while True :
         if keyboard.read_event() :
+            error_sound()
             looping_sound()
             time.sleep(0.1)
         if keyboard.is_pressed("ctrl+n+o") :
