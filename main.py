@@ -15,18 +15,30 @@ import tkinter
 import keyboard
 import vlc
 import time
+import pygame
+
+pygame.mixer.init()
 
 def closing_sound() :
-    sound = vlc.MediaPlayer("assets/hacker_crap.mp3")
-    sound.play()
+    pygame.mixer.music.load("assets/hacker_crap.mp3")
+    pygame.mixer.music.play()
     time.sleep(5)
 
-def close() :
-    if keyboard.is_pressed("ctrl+n+o") :
-        closing_sound()
-        return True
+def looping_sound() :
+    pygame.mixer.music.load("assets/magic_word.mp3")
+    pygame.mixer.music.play(-1)
+    
 
-while True :
-    time.sleep(0.1)
-    if close() :
-        break
+
+def main() :
+    while True :
+        if keyboard.read_event() :
+            looping_sound()
+            time.sleep(0.1)
+        if keyboard.is_pressed("ctrl+n+o") :
+            pygame.mixer.music.stop()
+            closing_sound()
+            break
+
+
+main()
