@@ -81,24 +81,36 @@ def on_restore(event = None) :
 
 def create_window() :
     window = customtkinter.CTk()
-    window.title("Ah ah aaaaah !")
+    window.title("PERMISSION DENIED !")
     window.geometry("300x150")
+
+    window.attributes("-topmost", True) # Makes the window popup in front of anything you're currently 
 
     label = customtkinter.CTkLabel(
         window,
-        text = "You didn't say the magic word !",
+        text = "YOU DIDN'T SAY THE MAGIC WORD !!!",
         font = ("Arial", 14)
     )
     label.pack(pady = 20)
 
-    window.protocol("WM_DELETE_WINDOW", on_close) # Action when closing button is pressed
+    button = customtkinter.CTkButton(
+        window,
+        text = "GODDAMMIT !!!",
+        command=lambda : button_action(window)
+    )
+    button.pack(pady=10)
 
-    window.bind("<Unmap>", on_minimize) 
-    window.bind("<Map>", on_restore)
+    window.protocol("WM_DELETE_WINDOW", lambda : on_close(window)) # Action when closing button is pressed
+
+    window.bind("<Unmap>", lambda event : on_minimize(window)) 
+    window.bind("<Map>", lambda event : on_restore(window))
 
     return window
 
-
+def button_action(window) :
+    create_and_show_window(window.winfo_x() + 50, window.winfo_y() + 50)
+    error_sound()
+    looping_sound()
 
 def main() :
 
