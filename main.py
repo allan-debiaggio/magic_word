@@ -30,22 +30,39 @@ def closing_sound() :
 def error_sound() :
     error_channel = pygame.mixer.Channel(1)
     error_channel.play(pygame.mixer.Sound("assets/windows_xp_error.mp3"))
-    # pygame.mixer.music.play(1)
 
 
 
 def background_task() :
+    window_positions = [] # Making a list to remember all windows positions
+    x_offset, y_offset = 50, 50
+
     while True :
-        if keyboard.read_event() :
-            error_sound()
-            looping_sound()
-            time.sleep(0.1)
+        if keyboard.read_event() : # If any key is pressed
+            if not keyboard.is_pressed("ctrl+n+o") :
+                x = 100 + len(window_positions) * x_offset
+                y = 100 + len(window_positions) * y_offset
+
+                
+                threading.Thread(target=lambda: create_and_show_window(x,y), daemon=True).start()
+
+                error_sound()
+                looping_sound()
+
+                window_positions.append((x,y)) # Adding some coordinates to move slightly the window
+
+            time.sleep(0.1)        # Short reaction to listen to keyboard inputs
 
         if keyboard.is_pressed("ctrl+n+o") :
             pygame.mixer.music.stop()
             closing_sound()
             break
 
+
+def create_and_show_window(x,y) :
+    window = create_window()
+    window.geometry(f"300x150+{x}+{y}") 
+    window.mainloop()  # Run on main thread
 
 
 
@@ -84,13 +101,11 @@ def create_window() :
 
 
 def main() :
-    window = create_window()
 
-    thread = threading.Thread(target=background_task,daemon=True)
+    background_task()
+    thread = threading.Thread(target=background_task, daemon=True)
     thread.start()
 
-    window.mainloop()
-
-
+    
 
 main()
