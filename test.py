@@ -9,7 +9,7 @@ def main() :
 
     window = customtkinter.CTk()
     window.title("Permission denied !")
-    window.geometry(f"{gif_width}x{gif_height}")
+    window.geometry(f"{gif_width} - 50 x {gif_height} - 100")
 
 
     label = customtkinter.CTkLabel(window, text="")
